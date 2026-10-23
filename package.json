@@ -1,0 +1,21 @@
+{
+  "name": "site-ironcoatepoxy",
+  "version": "1.0.0",
+  "description": "IronCoat Epoxy Co. - High-End Metallic & Flake Epoxy Floors DFW (Exact 1:1 Replica)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "deploy": "npx wrangler pages deploy ."
+  },
+  "keywords": [
+    "epoxy",
+    "dfw",
+    "flooring",
+    "metallic-epoxy",
+    "garage-floor-coating",
+    "polyaspartic"
+  ],
+  "author": "IronCoat Epoxy Co.",
+  "license": "ISC"
+}

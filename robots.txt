@@ -1,0 +1,179 @@
+User-agent: *
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+# Search engines
+
+User-agent: Googlebot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: Bingbot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: DuckDuckBot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: Applebot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+# Social previews (must be able to fetch /offer for ad link previews)
+
+User-agent: Twitterbot
+
+Allow: /
+
+User-agent: facebookexternalhit
+
+Allow: /
+
+User-agent: LinkedInBot
+
+Allow: /
+
+User-agent: Slackbot
+
+Allow: /
+
+# AI / answer engines (AEO)
+
+User-agent: GPTBot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: ChatGPT-User
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: OAI-SearchBot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: Google-Extended
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: Applebot-Extended
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: PerplexityBot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: Claude-Web
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: ClaudeBot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: anthropic-ai
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: cohere-ai
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+User-agent: CCBot
+
+Allow: /
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+# Disallow noise
+
+Disallow: /api/
+
+Disallow: /*.json$
+
+Disallow: /offer
+Disallow: /new-homeowner
+Disallow: /process
+Disallow: /blank-6
+Disallow: /thank-you
+
+Sitemap: https://ironcoatepoxy.com/sitemap.xml
