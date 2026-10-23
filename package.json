@@ -1,19 +1,22 @@
 {
   "name": "tpl-usa-epoxy",
   "version": "1.0.0",
-  "description": "Apex Epoxy Co. - High-End Metallic & Flake Epoxy Floors DFW (Exact 1:1 Replica)",
+  "description": "Apex Epoxy Co. - High-End Metallic & Flake Epoxy Floors DFW (Universal Template / Demo Showcase)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "deploy": "npx wrangler pages deploy ."
+    "build": "echo 'Static assets ready'",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.152.0"
   },
   "keywords": [
     "epoxy",
     "dfw",
     "flooring",
     "metallic-epoxy",
-    "garage-floor-coating",
     "polyaspartic"
   ],
   "author": "Apex Epoxy Co.",

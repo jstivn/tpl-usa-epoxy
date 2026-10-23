@@ -2,5 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "tpl-usa-epoxy",
   "compatibility_date": "2026-10-23",
-  "pages_build_output_dir": "."
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "."
+  }
 }
