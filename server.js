@@ -67,9 +67,9 @@ const server = http.createServer((req, res) => {
     // Fast caching headers
     const headers = { 'Content-Type': contentType };
     if (targetFile.includes(path.sep + 'assets' + path.sep)) {
-      headers['Cache-Control'] = 'public, max-age=31536000, immutable';
+      headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'; headers['Pragma'] = 'no-cache'; headers['Expires'] = '0';
     } else {
-      headers['Cache-Control'] = 'public, max-age=3600';
+      headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'; headers['Pragma'] = 'no-cache'; headers['Expires'] = '0';
     }
 
     res.writeHead(200, headers);
