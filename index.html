@@ -118,6 +118,67 @@
       ]
     }
     </script>
+        <!-- Dynamic Edge & Client Brand Personalization -->
+    <script>
+      (function() {
+        var params = new URLSearchParams(window.location.search);
+        var c = params.get('c') || params.get('name') || params.get('company') || window.__CUSTOM_COMPANY__;
+        if (!c && window.location.pathname.indexOf('/demo/') !== -1) {
+          var slug = window.location.pathname.split('/demo/')[1].split('/')[0];
+          if (slug) c = decodeURIComponent(slug).replace(/[-_+]+/g, ' ').trim();
+        }
+        if (c) {
+          c = c.trim().replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+          window.__CUSTOM_COMPANY__ = c;
+          var titleText = c + " | 1-Tap Garage Floor Estimate";
+          document.title = titleText;
+
+          function replaceBrandText() {
+            if (document.title !== titleText) document.title = titleText;
+
+            var ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', titleText);
+            var ogSite = document.querySelector('meta[property="og:site_name"]');
+            if (ogSite) ogSite.setAttribute('content', c);
+
+            var root = document.getElementById('root') || document.body;
+            if (!root) return;
+            var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+            var node;
+            while (node = walker.nextNode()) {
+              if (node.nodeValue && (node.nodeValue.indexOf("Apex Epoxy Co.") !== -1 || node.nodeValue.indexOf("Apex Epoxy") !== -1)) {
+                node.nodeValue = node.nodeValue.replace(/Apex Epoxy Co\./g, c).replace(/Apex Epoxy/g, c);
+              }
+            }
+
+            var h1 = document.querySelector('h1');
+            if (h1 && (h1.textContent.indexOf("Metallic") !== -1 || h1.textContent.indexOf("Apex") !== -1)) {
+              h1.textContent = c + " — Premium Garage Floor Coatings";
+            }
+          }
+
+          replaceBrandText();
+          document.addEventListener('DOMContentLoaded', replaceBrandText);
+
+          var count = 0;
+          var interval = setInterval(function() {
+            replaceBrandText();
+            count++;
+            if (count > 30) clearInterval(interval);
+          }, 100);
+
+          window.addEventListener('load', function() {
+            replaceBrandText();
+            if (document.body) {
+              var observer = new MutationObserver(function() {
+                replaceBrandText();
+              });
+              observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+            }
+          });
+        }
+      })();
+    </script>
     <script type="module" crossorigin src="/assets/index-v4.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-f3lowG5Q.css">
       <script type="application/ld+json" data-prerender="true">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What types of epoxy flooring does Apex Epoxy Co. install in Dallas?","acceptedAnswer":{"@type":"Answer","text":"Apex Epoxy Co. installs premium epoxy flake systems, decorative quartz floors, metallic designer coatings, and polyaspartic topcoats for homes and businesses across Dallas, Fort Worth, Plano, Frisco, McKinney, and the entire DFW metroplex."}},{"@type":"Question","name":"How long does epoxy flooring installation take in the Dallas-Fort Worth area?","acceptedAnswer":{"@type":"Answer","text":"Timelines depend on the system and the condition of your slab — you'll get an exact schedule with your quote."}},{"@type":"Question","name":"Is epoxy flooring durable enough for Texas heat and humidity?","acceptedAnswer":{"@type":"Answer","text":"Yes. Apex Epoxy Co. uses UV-stable polyaspartic topcoats and industrial-grade resins engineered for Texas heat, humidity, and temperature swings."}}]}</script>
