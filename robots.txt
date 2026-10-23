@@ -176,4 +176,4 @@ Disallow: /process
 Disallow: /blank-6
 Disallow: /thank-you
 
-Sitemap: https://ironcoatepoxy.com/sitemap.xml
+Sitemap: https://apexepoxy.com/sitemap.xml

@@ -1,4 +1,4 @@
-# IRONCOAT EPOXY CO. | Official Website (1:1 Exact Replica)
+# APEX EPOXY CO. | Official Website (1:1 Exact Replica)
 
 > **High-End Metallic Epoxy Floors & Premium Garage Floor Coatings across Dallas–Fort Worth**  
 > 1-to-1 exact edge-optimized replica ready for instant Cloudflare Pages deployment with sub-0.2s latency.
@@ -9,14 +9,14 @@
 
 | Property | Details |
 | :--- | :--- |
-| **Business Name** | **IronCoat Epoxy Co.** |
+| **Business Name** | **Apex Epoxy Co.** |
 | **Service Area** | **Dallas–Fort Worth Metroplex (Aubrey, Plano, Frisco, McKinney, etc.)** |
-| **Direct Call** | **[(951) 390-1238](tel:+19513901238)** |
-| **Direct SMS (US Trigger)** | **[1-Tap Text Message](sms:+19513901238)** |
-| **Email** | [Ironcoat.solutions@gmail.com](mailto:Ironcoat.solutions@gmail.com) |
-| **Facebook** | [facebook.com/ironcoatepoxy](https://www.facebook.com/ironcoatepoxy) |
+| **Direct Call** | **[(214) 555-0199](tel:+12145550199)** |
+| **Direct SMS (US Trigger)** | **[1-Tap Text Message](sms:+12145550199)** |
+| **Email** | [contact@apexepoxy.com](mailto:contact@apexepoxy.com) |
+| **Facebook** | [facebook.com/apexepoxyepoxy](https://www.facebook.com) |
 | **Hours** | Mon – Sat: 7:00 AM – 7:00 PM |
-| **Google Maps CID** | `cid=7310520668116360067` (Aubrey, TX 76227) |
+| **Google Maps CID** | `q=Dallas-Fort+Worth+TX` (Dallas, TX 75001) |
 
 ---
 
@@ -25,7 +25,7 @@
 - **Stack:** React 18 SPA + Tailwind CSS + shadcn/ui components + Lucide Icons.
 - **Routing:** Full React Router client-side routing + 47 static pre-rendered edge HTML routes for maximum SEO & instant first contentful paint (FCP).
 - **Edge Delivery:** Cloudflare Pages ready with zero cold-start, `_redirects` SPA fallback and `_headers` immutable asset caching.
-- **Lead Capture:** Integrated quote & booking forms (`Supabase Edge Function /lead-router`) + interactive AI consultation assistant (`ironcoat-ai`).
+- **Lead Capture:** Integrated quote & booking forms (`Supabase Edge Function /lead-router`) + interactive AI consultation assistant (`apexepoxy-ai`).
 - **SEO & Structured Data:** Full Schema.org `LocalBusiness`, `FlooringContractor`, `OfferCatalog`, and `FAQPage` JSON-LD on all landing pages.
 
 ---
@@ -69,7 +69,7 @@
 Run the zero-dependency local server:
 
 ```powershell
-cd e:\billion\sites\site-ironcoatepoxy
+cd e:\billion\sites\site-apexepoxyepoxy
 node server.js
 ```
 
@@ -82,6 +82,6 @@ Open `http://localhost:3000` in any browser.
 Deploy directly via Cloudflare Wrangler:
 
 ```powershell
-cd e:\billion\sites\site-ironcoatepoxy
-npx wrangler pages deploy . --project-name=ironcoat-epoxy
+cd e:\billion\sites\site-apexepoxyepoxy
+npx wrangler pages deploy . --project-name=apexepoxy-epoxy
 ```
