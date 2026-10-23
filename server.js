@@ -22,10 +22,84 @@ const MIME_TYPES = {
   '.md': 'text/markdown; charset=utf-8'
 };
 
+function transformHtmlWithCompany(html, company) {
+  if (!company) return html;
+  
+  const formattedTitle = `${company} | 1-Tap Garage Floor Estimate`;
+  const formattedDesc = `${company} installs industrial-grade epoxy flake systems and polyaspartic coatings. Diamond-ground slab prep, 1-day installation. Get a free instant estimate.`;
+  const safeCompanyJson = JSON.stringify(company);
+
+  const clientScript = `
+<script>
+(function() {
+  window.__CUSTOM_COMPANY__ = ${safeCompanyJson};
+  
+  function applyBrand() {
+    var c = window.__CUSTOM_COMPANY__;
+    if (!c) return;
+
+    if (document.title !== "${company} | 1-Tap Garage Floor Estimate") {
+      document.title = "${company} | 1-Tap Garage Floor Estimate";
+    }
+
+    var walker = document.createTreeWalker(document.body || document.documentElement, NodeFilter.SHOW_TEXT, null, false);
+    var node;
+    while (node = walker.nextNode()) {
+      if (node.nodeValue && (node.nodeValue.indexOf("Apex Epoxy Co.") !== -1 || node.nodeValue.indexOf("Apex Epoxy") !== -1)) {
+        node.nodeValue = node.nodeValue.replace(/Apex Epoxy Co\\./g, c).replace(/Apex Epoxy/g, c);
+      }
+    }
+
+    var h1 = document.querySelector('h1');
+    if (h1 && (h1.textContent.indexOf("Metallic") !== -1 || h1.textContent.indexOf("Apex") !== -1)) {
+      h1.textContent = c + " — Premium Garage Floor Coatings";
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyBrand);
+  } else {
+    applyBrand();
+  }
+
+  window.addEventListener('load', function() {
+    applyBrand();
+    if (document.body) {
+      var observer = new MutationObserver(function() {
+        applyBrand();
+      });
+      observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    }
+  });
+})();
+</script>
+`;
+
+  let out = html;
+  // Replace title
+  out = out.replace(/<title>.*?<\/title>/i, `<title>${formattedTitle}</title>`);
+  // Replace OpenGraph
+  out = out.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${formattedTitle}" />`);
+  out = out.replace(/<meta property="og:site_name" content=".*?" \/>/i, `<meta property="og:site_name" content="${company}" />`);
+  out = out.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${formattedDesc}" />`);
+  // Inject client script into head
+  out = out.replace('</head>', `${clientScript}</head>`);
+  return out;
+}
+
 const server = http.createServer((req, res) => {
-  // Parse URL, remove query parameters
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   let pathname = decodeURIComponent(parsedUrl.pathname);
+
+  // Extract company parameter
+  let company = parsedUrl.searchParams.get("c") || parsedUrl.searchParams.get("name") || parsedUrl.searchParams.get("company") || "";
+  if (!company && pathname.startsWith("/demo/")) {
+    const slug = pathname.replace(/^\/demo\/?/, "").split("/")[0];
+    if (slug) {
+      company = decodeURIComponent(slug).replace(/[-_+]+/g, " ").trim().replace(/\b\w/g, char => char.toUpperCase());
+    }
+  }
+  company = company.trim();
 
   // Handle Mock API Endpoints for interactive demo forms & AI
   if (pathname === '/api/lead-router' && req.method === 'POST') {
@@ -46,11 +120,12 @@ const server = http.createServer((req, res) => {
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
+      console.log('[AI CHAT QUERY]');
       res.writeHead(200, {
         'Content-Type': 'text/plain; charset=utf-8',
         'Access-Control-Allow-Origin': '*'
       });
-      res.end("Hello! Apex Epoxy Co. installs high-end metallic marble and full-flake garage floor systems across Dallas-Fort Worth. Our floors feature industrial diamond-ground slab prep and UV-stable polyaspartic topcoats engineered for Texas heat. Feel free to call us at (214) 555-0199 or submit the quick quote form above!");
+      res.end(`Hello! ${company || 'Apex Epoxy Co.'} installs industrial-grade epoxy flake systems and polyaspartic coatings. Our floors feature diamond-ground slab prep and UV-stable polyaspartic topcoats. Submit your garage dimensions above for an instant quote!`);
     });
     return;
   }
@@ -62,11 +137,9 @@ const server = http.createServer((req, res) => {
     return res.end('403 Forbidden');
   }
 
-  // Helper to serve file
   function serveFile(filePath) {
     fs.stat(filePath, (err, stats) => {
       if (err) {
-        // SPA Fallback: serve root index.html
         return serveSPA();
       }
 
@@ -92,7 +165,6 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(targetFile).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    // Disable caching completely for instant development preview
     const headers = {
       'Content-Type': contentType,
       'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -100,23 +172,44 @@ const server = http.createServer((req, res) => {
       'Expires': '0'
     };
 
+    if (ext === '.html' && company) {
+      fs.readFile(targetFile, 'utf-8', (readErr, htmlContent) => {
+        if (readErr) {
+          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          return res.end('Internal Server Error');
+        }
+        const transformed = transformHtmlWithCompany(htmlContent, company);
+        res.writeHead(200, headers);
+        res.end(transformed);
+      });
+      return;
+    }
+
     res.writeHead(200, headers);
     fs.createReadStream(targetFile).pipe(res);
   }
 
   function serveSPA() {
     const rootIndex = path.join(PUBLIC_DIR, 'index.html');
-    res.writeHead(200, {
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    fs.readFile(rootIndex, 'utf-8', (err, htmlContent) => {
+      if (err) {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        return res.end('Internal Server Error');
+      }
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      });
+      const transformed = transformHtmlWithCompany(htmlContent, company);
+      res.end(transformed);
     });
-    fs.createReadStream(rootIndex).pipe(res);
   }
 
   serveFile(safePath);
 });
 
 server.listen(PORT, () => {
-  console.log(`Apex Epoxy Co. local server running at http://localhost:${PORT}`);
-  console.log(`Press Ctrl+C to stop.`);
+  console.log(`Apex Epoxy Co. / Dynamic Edge Demo running at http://localhost:${PORT}`);
+  console.log(`Test personal link: http://localhost:${PORT}/?c=Old+GOAT+Coatings`);
+  console.log(`Test slug link:     http://localhost:${PORT}/demo/West-Texas-Coatings`);
 });
